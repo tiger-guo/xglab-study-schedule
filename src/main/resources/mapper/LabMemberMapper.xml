@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xglab.studySchedule.dao.LabMemberMapper">
+
+    <!--    查询数据 -->
+    <sql id="QUERY_COLUMN_LIST">
+        <![CDATA[
+
+                id,user_name AS userName, user_class AS userClass, phone_number AS phoneNumber, password AS password,
+                        state,create_time AS createTime, modify_time AS modifyTime
+
+        ]]>
+    </sql>
+
+    <!--    查询表单 -->
+    <sql id="QUERY_FROM_TABLE"><![CDATA[
+
+                FROM lab_member
+
+        ]]></sql>
+
+    <!--    update数据 -->
+    <sql id="SET_COLUMN_DATA">
+        <set>
+            <if test="id != null and id != ''"><![CDATA[id = #{id},]]></if>
+            <if test="userName != null and userName != ''"><![CDATA[user_name = #{userName},]]></if>
+            <if test="userClass != null and userClass != ''"><![CDATA[user_class = #{userClass},]]></if>
+            <if test="phoneNumber != null and phoneNumber != ''"><![CDATA[phone_number = #{phoneNumber},]]></if>
+            <if test="password != null and password != ''"><![CDATA[password = #{password},]]></if>
+            <if test="state != null and state != ''"><![CDATA[state = #{state},]]></if>
+            <![CDATA[modify_time = now(),]]>
+        </set>
+    </sql>
+
+    <!--    查询条件 -->
+    <sql id="QUERY_WHERE_CLAUSE">
+        <where>
+            <if test="id != null and id != ''"><![CDATA[AND id = #{id}]]]></if>
+            <if test="userName != null and userName != ''"><![CDATA[AND user_name = #{userName}]]></if>
+            <if test="userClass != null and userClass != ''"><![CDATA[AND user_class = #{userClass}]]></if>
+            <if test="phoneNumber != null and phoneNumber != ''"><![CDATA[AND phone_number = #{phoneNumber}]]></if>
+            <if test="password != null and password != ''"><![CDATA[AND password = #{password}]]></if>
+            <if test="state != null and state != ''"><![CDATA[AND state = #{state}]]></if>
+            <if test="createTime != null and createTime != ''"><![CDATA[AND create_time = #{createTime}]]></if>
+            <if test="modifyTime != null and modifyTime != ''"><![CDATA[AND modify_time = #{modifyTime}]]></if>
+        </where>
+    </sql>
+
+    <!--    添加成员-->
+    <insert id="save">
+        <![CDATA[
+
+
+                            INSERT into lab_member(id, user_name, user_class, phone_number, password, state, create_time,modify_time)
+                            VALUES (#{id}, #{userName}, #{userClass}, #{phoneNumber}, #{password}, 1, now(), now())
+
+
+        ]]>
+    </insert>
+
+    <!--    获取成员列表-->
+    <select id="getListMember" resultType="LabMember">
+        <![CDATA[SELECT]]>
+        <include refid="QUERY_COLUMN_LIST"/>
+        <include refid="QUERY_FROM_TABLE"/>
+        <include refid="QUERY_WHERE_CLAUSE"/>
+    </select>
+
+    <!--    根据id获取成员-->
+    <select id="findById" parameterType="int" resultType="LabMember">
+        <![CDATA[SELECT]]>
+        <include refid="QUERY_COLUMN_LIST"/>
+        <include refid="QUERY_FROM_TABLE"/>
+        <include refid="QUERY_WHERE_CLAUSE"/>
+    </select>
+
+    <!--    更新成员-->
+    <update id="update" parameterType="LabMember">
+        <![CDATA[UPDATE lab_member]]>
+        <include refid="SET_COLUMN_DATA"/>
+        <where>
+            <if test="id != null and id != ''"><![CDATA[AND id = #{id}]]></if>
+        </where>
+    </update>
+
+
+</mapper>
