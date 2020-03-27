@@ -2,6 +2,7 @@ package com.xglab.studySchedule.domain.query;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @create: 2020-03-27 11:01
  **/
 @Data
-public class LabMemberQuery {
+public class LabMemberQuery implements Serializable {
     int id;
     String userName;
     String userClass;

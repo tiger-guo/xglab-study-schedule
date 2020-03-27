@@ -1,9 +1,11 @@
 package com.xglab.studySchedule.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.xglab.studySchedule.domain.LabMember;
 import com.xglab.studySchedule.domain.result.CodeMsg;
 import com.xglab.studySchedule.domain.result.Result;
+import com.xglab.studySchedule.domain.vo.LabMemberVO;
 import com.xglab.studySchedule.service.LabMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -58,10 +60,12 @@ public class LabMemberController {
     }
 
     @RequestMapping(value = "/getMember", method = RequestMethod.GET)
-    public Result<LabMember> getMemberById(@RequestParam(name = "id", required = true) Integer id) {
+    public Result<LabMemberVO> getMemberById(@RequestParam(name = "id", required = true) Integer id) {
         Result result;
+        LabMemberVO labMemberVO = new LabMemberVO();
         LabMember labMember = labMemberService.findById(id);
-        result = Result.success(labMember);
+        BeanUtil.copyProperties(labMember, labMemberVO);
+        result = Result.success(labMemberVO);
         return result;
     }
 
