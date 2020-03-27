@@ -1,6 +1,7 @@
 package com.xglab.studySchedule.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface BaseMapper<T> {
     /**
      * 通过id查询
      */
-    T findById(Integer id);
+    T findById(@Param(value = "id") Integer id);
 
     /**
      * 更新

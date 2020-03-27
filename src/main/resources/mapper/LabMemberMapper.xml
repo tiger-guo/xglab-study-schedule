@@ -47,14 +47,10 @@
     </sql>
 
     <!--    添加成员-->
-    <insert id="save">
+    <insert id="save" parameterType="LabMember">
         <![CDATA[
-
-
-                            INSERT into lab_member(id, user_name, user_class, phone_number, password, state, create_time,modify_time)
-                            VALUES (#{id}, #{userName}, #{userClass}, #{phoneNumber}, #{password}, 1, now(), now())
-
-
+        INSERT into lab_member(user_name, user_class, phone_number, password, state, create_time,modify_time)
+        VALUES (#{userName}, #{userClass}, #{phoneNumber}, #{password}, 1, now(), now())
         ]]>
     </insert>
 
@@ -67,11 +63,11 @@
     </select>
 
     <!--    根据id获取成员-->
-    <select id="findById" parameterType="int" resultType="LabMember">
+    <select id="findById" parameterType="Integer" resultType="LabMember">
         <![CDATA[SELECT]]>
         <include refid="QUERY_COLUMN_LIST"/>
         <include refid="QUERY_FROM_TABLE"/>
-        <include refid="QUERY_WHERE_CLAUSE"/>
+        where id = #{id};
     </select>
 
     <!--    更新成员-->
@@ -83,5 +79,10 @@
         </where>
     </update>
 
-
+    <!--    根据id获取成员-->
+    <select id="loginByNameAndPassword" parameterType="LabMemberQuery" resultType="integer">
+        select id
+        <include refid="QUERY_FROM_TABLE"/>
+        <include refid="QUERY_WHERE_CLAUSE"/>
+    </select>
 </mapper>

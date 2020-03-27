@@ -15,4 +15,5 @@ public interface LabMemberService  extends IBaseService<LabMember>{
 
     List<LabMember> getListMember();
 
+    Integer loginByNameAndPassword(String userName, String password);
 }

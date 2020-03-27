@@ -1,6 +1,7 @@
 package com.xglab.studySchedule.dao;
 
 import com.xglab.studySchedule.domain.LabMember;
+import com.xglab.studySchedule.domain.query.LabMemberQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,5 @@ public interface LabMemberMapper extends BaseMapper<LabMember>{
     List<LabMember> getListMember();
 
 
+    Integer loginByNameAndPassword(LabMemberQuery query);
 }

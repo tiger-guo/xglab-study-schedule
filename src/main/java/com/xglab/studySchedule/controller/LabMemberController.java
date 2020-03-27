@@ -1,12 +1,15 @@
 package com.xglab.studySchedule.controller;
 
 import com.xglab.studySchedule.domain.LabMember;
-import com.xglab.studySchedule.domain.vo.Result;
+import com.xglab.studySchedule.domain.result.CodeMsg;
+import com.xglab.studySchedule.domain.result.Result;
 import com.xglab.studySchedule.service.LabMemberService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -28,52 +31,45 @@ public class LabMemberController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result<List<LabMember>> getListMember() {
         Result<List<LabMember>> result;
-        try {
-            List<LabMember> labMembers = labMemberService.getListMember();
-            result = new Result<>(200, "OK", labMembers);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = new Result<>(500,"获取实验室成员出错！");
-        }
+        List<LabMember> labMembers = labMemberService.getListMember();
+        result = Result.success(labMembers);
         return result;
     }
 
     @RequestMapping(value = "/addMember", method = RequestMethod.POST)
-    public Result addMember(LabMember labMember){
+    public Result addMember(LabMember labMember) {
         Result result;
-
-        try {
-            labMemberService.save(labMember);
-            return new Result(200, "OK");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(500,"添加实验室成员出错");
-        }
+        labMemberService.save(labMember);
+        result = Result.success();
+        return result;
     }
 
     @RequestMapping(value = "/updateMember", method = RequestMethod.POST)
-    public Result updateMember(LabMember labMember){
+    public Result updateMember(LabMember labMember) {
         Result result;
-
-        try {
-            labMemberService.update(labMember);
-            return new Result(200, "OK");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(500,"修改实验室成员信息出错");
-        }
+        labMemberService.update(labMember);
+        result = Result.success();
+        return result;
     }
 
     @RequestMapping(value = "/getMember", method = RequestMethod.GET)
-    public Result<LabMember> getMemberById(Integer id){
+    public Result<LabMember> getMemberById(@RequestParam(name = "id", required = true) Integer id) {
         Result result;
+        LabMember labMember = labMemberService.findById(id);
+        result = Result.success(labMember);
+        return result;
+    }
 
-        try {
-            LabMember labMember = labMemberService.findById(id);
-            return new Result(200, "OK", labMember);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(500,"获取实验室成员信息出错");
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public Result login(@RequestParam("name") String userName, @RequestParam("password") String password) {
+        Result result;
+        Integer userId = labMemberService.loginByNameAndPassword(userName, password);
+        // -1 代表用户不存在
+        if (userId != -1) {
+            result = Result.success(userId);
+        } else {
+            result = Result.error(CodeMsg.NOT_EXIST_USER);
         }
+        return result;
     }
 }

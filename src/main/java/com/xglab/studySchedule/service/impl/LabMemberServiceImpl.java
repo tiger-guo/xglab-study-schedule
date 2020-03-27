@@ -3,6 +3,7 @@ package com.xglab.studySchedule.service.impl;
 import com.xglab.studySchedule.dao.LabMemberMapper;
 import com.xglab.studySchedule.domain.LabMember;
 import com.xglab.studySchedule.domain.User;
+import com.xglab.studySchedule.domain.query.LabMemberQuery;
 import com.xglab.studySchedule.service.LabMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,17 @@ public class LabMemberServiceImpl extends BaseServiceImpl<LabMember> implements 
     public List<LabMember> getListMember() {
 
         return labMemberMapper.getListMember();
+    }
+
+    @Override
+    public Integer loginByNameAndPassword(String userName, String password) {
+        LabMemberQuery query = new LabMemberQuery();
+        query.setUserName(userName);
+        query.setPassword(password);
+        Integer id = labMemberMapper.loginByNameAndPassword(query);
+        if(id == null){
+            id = -1;
+        }
+        return id;
     }
 }
