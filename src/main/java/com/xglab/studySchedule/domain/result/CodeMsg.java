@@ -9,7 +9,9 @@ package com.xglab.studySchedule.domain.result;
 
 public enum CodeMsg {
 
-    NOT_EXIST_USER(5001,"用户不存在！");
+    NOT_EXIST_USER(5001,"用户不存在！"),
+    PARAM_IS_NULL(5000,"参数为空");
+    ;
 
 
     private int code;

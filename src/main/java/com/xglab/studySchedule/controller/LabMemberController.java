@@ -1,5 +1,6 @@
 package com.xglab.studySchedule.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.xglab.studySchedule.domain.LabMember;
 import com.xglab.studySchedule.domain.result.CodeMsg;
 import com.xglab.studySchedule.domain.result.Result;
@@ -7,12 +8,10 @@ import com.xglab.studySchedule.service.LabMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: projectName
@@ -37,16 +36,22 @@ public class LabMemberController {
     }
 
     @RequestMapping(value = "/addMember", method = RequestMethod.POST)
-    public Result addMember(LabMember labMember) {
+    public Result addMember(@RequestBody LabMember labMember) {
         Result result;
+        if(ObjectUtil.isNull(labMember)){
+            return Result.error(CodeMsg.PARAM_IS_NULL);
+        }
         labMemberService.save(labMember);
         result = Result.success();
         return result;
     }
 
     @RequestMapping(value = "/updateMember", method = RequestMethod.POST)
-    public Result updateMember(LabMember labMember) {
+    public Result updateMember(@RequestBody LabMember labMember) {
         Result result;
+        if(ObjectUtil.isNull(labMember)){
+            return Result.error(CodeMsg.PARAM_IS_NULL);
+        }
         labMemberService.update(labMember);
         result = Result.success();
         return result;
@@ -61,8 +66,13 @@ public class LabMemberController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Result login(@RequestParam("name") String userName, @RequestParam("password") String password) {
+    public Result login(@RequestBody Map<String, String> param) {
         Result result;
+        String userName = param.get("userName");
+        String password = param.get("password");
+        if(ObjectUtil.isNull(userName) && ObjectUtil.isNull(password)){
+            return Result.error(CodeMsg.PARAM_IS_NULL);
+        }
         Integer userId = labMemberService.loginByNameAndPassword(userName, password);
         // -1 代表用户不存在
         if (userId != -1) {
