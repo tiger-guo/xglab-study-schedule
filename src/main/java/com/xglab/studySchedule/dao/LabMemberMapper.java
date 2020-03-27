@@ -20,4 +20,6 @@ public interface LabMemberMapper extends BaseMapper<LabMember>{
 
 
     Integer loginByNameAndPassword(LabMemberQuery query);
+
+    void chooseDirection(Integer userId, Integer did);
 }

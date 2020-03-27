@@ -7,7 +7,7 @@
         <![CDATA[
 
                 id,user_name AS userName, user_class AS userClass, phone_number AS phoneNumber, password AS password,
-                        state,create_time AS createTime, modify_time AS modifyTime
+                        state, did, create_time AS createTime, modify_time AS modifyTime
 
         ]]>
     </sql>
@@ -85,4 +85,8 @@
         <include refid="QUERY_FROM_TABLE"/>
         <include refid="QUERY_WHERE_CLAUSE"/>
     </select>
+
+    <update id="chooseDirection" parameterType="Integer">
+       update lab_member set did = #{did} where id = #{userId};
+    </update>
 </mapper>

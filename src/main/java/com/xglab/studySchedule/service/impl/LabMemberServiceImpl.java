@@ -39,4 +39,9 @@ public class LabMemberServiceImpl extends BaseServiceImpl<LabMember> implements 
         }
         return id;
     }
+
+    @Override
+    public void chooseDirection(Integer userId, Integer did) {
+        labMemberMapper.chooseDirection(userId,did);
+    }
 }

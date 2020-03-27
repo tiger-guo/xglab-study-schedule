@@ -17,5 +17,6 @@ public class LabMemberVO implements Serializable {
     String userClass;
     String phoneNumber;
     String password;
-    int state;
+    String stateType;
+    String direction;
 }

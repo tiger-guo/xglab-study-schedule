@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xglab.studySchedule.dao.LearnDirectionMapper">
+
+    <sql id="QUERY_COLUMN_LIST">
+        <![CDATA[
+                id, direction_name AS directionName, direction_detail AS directionDetail,create_time AS createTime,
+                modify_time AS modifyTime
+        ]]>
+    </sql>
+
+    <sql id="QUERY_FROM_TABLE">
+        <![CDATA[FROM learn_direction]]>
+    </sql>
+
+    <select id="findById" parameterType="int" resultType="LearnDirection">
+        <![CDATA[SELECT]]>
+        <include refid="QUERY_COLUMN_LIST"/>
+        <include refid="QUERY_FROM_TABLE"/>
+        where id = #{id};
+    </select>
+
+</mapper>

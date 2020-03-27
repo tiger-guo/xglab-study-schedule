@@ -19,6 +19,7 @@ public class LabMember implements Serializable {
     String phoneNumber;
     String password;
     int state;
+    int did;
     Date createTime;
     Date modifyTime;
 }
