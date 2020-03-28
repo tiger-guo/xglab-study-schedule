@@ -22,7 +22,6 @@
     <!--    update数据 -->
     <sql id="SET_COLUMN_DATA">
         <set>
-            <if test="id != null and id != ''"><![CDATA[id = #{id},]]></if>
             <if test="userName != null and userName != ''"><![CDATA[user_name = #{userName},]]></if>
             <if test="userClass != null and userClass != ''"><![CDATA[user_class = #{userClass},]]></if>
             <if test="phoneNumber != null and phoneNumber != ''"><![CDATA[phone_number = #{phoneNumber},]]></if>

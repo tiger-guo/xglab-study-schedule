@@ -4,15 +4,28 @@
 
     <sql id="QUERY_COLUMN_LIST">
         <![CDATA[
-                id, direction_name AS directionName, direction_detail AS directionDetail,create_time AS createTime,
-                modify_time AS modifyTime
+
+                        id, direction_name AS directionName, direction_detail AS directionDetail,create_time AS createTime,
+                        modify_time AS modifyTime
+
         ]]>
     </sql>
 
     <sql id="QUERY_FROM_TABLE">
-        <![CDATA[FROM learn_direction]]>
+        <![CDATA[
+        FROM learn_direction
+        ]]>
     </sql>
 
+    <sql id="UPDATE_DATE_SET">
+        <set>
+            <if test="directionName != null and directionName != ''"><![CDATA[direction_name = #{directionName},]]></if>
+            <if test="directionDetail != null and directionDetail != ''"><![CDATA[direction_detail = #{directionDetail},]]></if>
+            <![CDATA[modify_time = now(),]]>
+        </set>
+    </sql>
+
+<!--    根据id 获取数据-->
     <select id="findById" parameterType="int" resultType="LearnDirection">
         <![CDATA[SELECT]]>
         <include refid="QUERY_COLUMN_LIST"/>
@@ -20,4 +33,32 @@
         where id = #{id};
     </select>
 
+<!--    获取数据列表-->
+    <select id="list" resultType="LearnDirection">
+        <![CDATA[SELECT]]>
+        <include refid="QUERY_COLUMN_LIST"/>
+        <include refid="QUERY_FROM_TABLE"/>
+    </select>
+
+<!--    添加数据-->
+    <insert id="save" parameterType="LearnDirection">
+        <![CDATA[
+            INSERT into learn_direction(direction_name, direction_detail, create_time,modify_time)
+            VALUES (#{directionName},#{directionDetail}, now(), now())
+        ]]>
+    </insert>
+
+<!--    更新数据-->
+    <update id="update" parameterType="LearnDirection">
+        <![CDATA[UPDATE learn_direction]]>
+        <include refid="UPDATE_DATE_SET"/>
+        where id = #{id};
+    </update>
+
+<!--    删除数据-->
+    <delete id="delete" parameterType="integer">
+        <![CDATA[DELETE]]>
+        <include refid="QUERY_FROM_TABLE"/>
+        where id = #{id};
+    </delete>
 </mapper>
